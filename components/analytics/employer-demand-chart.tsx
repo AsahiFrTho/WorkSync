@@ -12,8 +12,23 @@ import {
 } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { employerDemandedSkills } from '@/lib/mock-data'
+import { useMounted } from '@/lib/use-mounted'
 
 export function EmployerDemandChart() {
+  const mounted = useMounted()
+  if (!mounted) {
+    return (
+      <Card className="border border-border bg-card rounded-xl overflow-hidden">
+        <CardHeader className="border-b border-border pb-3.5">
+          <CardTitle>Industry Verified Demand</CardTitle>
+          <CardDescription className="mt-0.5">Open verified positions reported across employer network</CardDescription>
+        </CardHeader>
+        <CardContent className="pt-4">
+          <div style={{ height: 288 }} className="w-full" />
+        </CardContent>
+      </Card>
+    )
+  }
   return (
     <Card className="border border-border bg-card rounded-xl overflow-hidden">
       <CardHeader className="border-b border-border pb-3.5">
@@ -30,12 +45,12 @@ export function EmployerDemandChart() {
               layout="vertical"
               margin={{ left: 8, right: 24, top: 4, bottom: 4 }}
             >
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" horizontal={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" horizontal={false} />
               <XAxis
                 type="number"
                 tickLine={false}
-                axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
-                tick={{ fontSize: 11, fill: '#A1A1AA', fontWeight: 500 }}
+                axisLine={{ stroke: 'var(--border)' }}
+                tick={{ fontSize: 11, fill: 'var(--muted-foreground)', fontWeight: 500 }}
               />
               <YAxis
                 type="category"
@@ -43,15 +58,15 @@ export function EmployerDemandChart() {
                 width={130}
                 tickLine={false}
                 axisLine={false}
-                tick={{ fontSize: 11, fill: '#F5F5F7', fontWeight: 500 }}
+                tick={{ fontSize: 11, fill: 'var(--foreground)', fontWeight: 500 }}
               />
               <Tooltip
-                cursor={{ fill: 'rgba(255,255,255,0.04)' }}
+                cursor={{ fill: 'color-mix(in srgb, var(--muted) 55%, transparent)' }}
                 contentStyle={{
                   borderRadius: 8,
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  background: '#121212',
-                  color: '#F5F5F7',
+                  border: '1px solid var(--border)',
+                  background: 'var(--popover)',
+                  color: 'var(--popover-foreground)',
                   fontSize: 12,
                   fontWeight: 500,
                   padding: '6px 10px',
@@ -60,7 +75,7 @@ export function EmployerDemandChart() {
               />
               <Bar dataKey="openings" radius={[0, 4, 4, 0]} barSize={16}>
                 {employerDemandedSkills.map((entry, i) => (
-                  <Cell key={entry.skill} fill={i < 3 ? '#C5A059' : '#8A7344'} />
+                  <Cell key={entry.skill} fill={i < 3 ? 'var(--chart-1)' : 'var(--chart-2)'} />
                 ))}
               </Bar>
             </BarChart>

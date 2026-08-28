@@ -25,7 +25,6 @@ import { Avatar } from '@/components/ui/avatar'
 import { Banner } from '@/components/ui/banner'
 import { KV } from '@/components/ui/kv'
 import { ToneBadge } from '@/components/ui/tone-badge'
-import { EmptyState } from '@/components/ui/empty-state'
 import { useToast } from '@/components/ui/toast'
 import { DataState } from '@/components/data-state'
 import { AddOutcomeModal } from '@/components/add-outcome-modal'
@@ -49,8 +48,6 @@ import {
   todayStr,
   daysBetween,
 } from '@/lib/compute'
-import type { ComputeDB } from '@/lib/compute-types'
-import type { MergedLearner } from '@/lib/types'
 
 interface NoteDraft {
   open: boolean
@@ -297,7 +294,7 @@ export default function LearnerProfilePage() {
                         <div className="absolute bottom-0 left-[15px] top-8 w-px bg-border" />
                       )}
                       <div
-                        className={`z-10 flex size-8 shrink-0 items-center justify-center rounded-full ${t.color || 'bg-muted'} text-sm text-white ring-4 ring-card`}
+className={`z-10 flex size-8 shrink-0 items-center justify-center rounded-full ${t.color || 'bg-muted'} text-sm text-white shadow-soft ring-4 ring-card`}
                       >
                         {t.icon}
                       </div>

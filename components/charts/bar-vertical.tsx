@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
+import { useMounted } from '@/lib/use-mounted'
 
 export function BarVertical({
   data,
@@ -21,7 +22,6 @@ export function BarVertical({
   yFormatter,
   angle = 0,
   barSize = 22,
-  valueColor = undefined,
 }: {
   data: { [key: string]: string | number }[]
   xKey: string
@@ -32,44 +32,48 @@ export function BarVertical({
   yFormatter?: (v: number) => string
   angle?: number
   barSize?: number
-  valueColor?: string
 }) {
+  const mounted = useMounted()
+  if (!mounted) {
+    return <div style={{ height }} className="w-full" />
+  }
   return (
-    <div style={{ height }} className="w-full">
+    <div style={{ height }} className="w-full animate-fade-in">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data} margin={{ left: 8, right: 12, top: 8, bottom: 12 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" vertical={false} />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
           <XAxis
             dataKey={xKey}
             tickLine={false}
-            axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
+            axisLine={{ stroke: 'var(--border)' }}
             interval={0}
             angle={angle}
             height={angle ? 52 : 30}
             textAnchor={angle ? 'end' : 'middle'}
-            tick={{ fontSize: 10.5, fill: '#A1A1AA', fontWeight: 500 }}
+tick={{ fontSize: 10.5, fill: 'var(--muted-foreground)', fontWeight: 500 }}
           />
           <YAxis
             tickLine={false}
             axisLine={false}
             width={46}
-            tick={{ fontSize: 11, fill: '#A1A1AA', fontWeight: 500 }}
+            tick={{ fontSize: 11, fill: 'var(--muted-foreground)', fontWeight: 500 }}
             tickFormatter={(v) => (yFormatter ? yFormatter(Number(v)) : String(v))}
           />
           <Tooltip
-            cursor={{ fill: 'rgba(255,255,255,0.04)' }}
+            cursor={{ fill: 'color-mix(in srgb, var(--muted) 55%, transparent)' }}
             contentStyle={{
-              borderRadius: 8,
-              border: '1px solid rgba(255,255,255,0.1)',
-              background: '#121212',
-              color: '#F5F5F7',
+              borderRadius: 10,
+              border: '1px solid var(--border)',
+              background: 'var(--popover)',
+              color: 'var(--popover-foreground)',
               fontSize: 12,
               fontWeight: 500,
-              padding: '6px 10px',
+              padding: '8px 12px',
+              boxShadow: 'var(--shadow-card)',
             }}
           />
           <Bar dataKey={barKey} name={name} fill={color} radius={[4, 4, 0, 0]} barSize={barSize}>
-            {data.map((entry, idx) => (
+            {data.map((_, idx) => (
               <Cell
                 key={idx}
                 fill={color}
